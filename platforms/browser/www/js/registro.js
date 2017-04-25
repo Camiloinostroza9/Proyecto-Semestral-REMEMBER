@@ -23,5 +23,17 @@ function volver(){
 }
 
 function exito(){
-    window.location = "registroexitoso.html";
+    
+    var nombre = $('#nombre').val();
+    var apellido = $('#apellido').val();
+    var email = $('#email').val();
+    var clave = $('#clave').val();
+    
+    if(nombre.length > 0 && apellido.length > 0 && email.length > 0 && clave.length > 0){
+      window.location = "registroexitoso.html";
+        
+    }else{
+      myApp.alert('Debe Ingresar los datos solicitados','REMEMBER');
+    }
 }
+    

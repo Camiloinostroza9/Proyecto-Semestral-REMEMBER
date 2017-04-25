@@ -22,7 +22,7 @@ document.addEventListener('deviceready', function(){
 
 function cam(){
     navigator.camera.getPicture(function(photo){
-        myApp.prompt('Agregue una Descripción','REMEMBER', function (value) {
+        myApp.prompt('Agregue una Descripción a la Imagen','REMEMBER', function (value) {
         $('#img_cam').attr('src',photo);
         myApp.popup('.popup-cam');
             });
@@ -50,11 +50,13 @@ function video(){
         
     } ;
     
+    
     var videoError = function(error){
         myApp.alert('Error al grabar el video','REMEMBER')
     };
     
     navigator.device.capture.captureVideo(videoGrabado,videoError, { duration:15});
+    myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {});
 }
 
 function cerrar(){
