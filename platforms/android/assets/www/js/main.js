@@ -56,7 +56,7 @@ function video(){
     };
     
     navigator.device.capture.captureVideo(videoGrabado,videoError, { duration:15});
-    myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {});
+    //myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {});
 }
 
 function cerrar(){

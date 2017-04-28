@@ -30,7 +30,25 @@ function exito(){
     var clave = $('#clave').val();
     
     if(nombre.length > 0 && apellido.length > 0 && email.length > 0 && clave.length > 0){
-      window.location = "registroexitoso.html";
+       $.ajax({
+          dataType: 'json',
+          type: 'POST',
+          data: {
+              Nombre: nombre,
+              Apellido: apellido,
+              Email: email,
+              Clave: clave
+          },
+          url: 'http://146.83.196.204:8070/jdoming/insercion.php',
+          
+          error: function (resultado) {
+              if(resultado == 1){
+                  myApp.Alert("Te has registrado exitosamente");
+              }else{
+                  myApp.Alert("Error");
+              }
+          }
+      });
         
     }else{
       myApp.alert('Debe Ingresar los datos solicitados','REMEMBER');

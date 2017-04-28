@@ -29,7 +29,7 @@ function enviar(){
               user: user,
               pass: pass
           },
-          url: 'http://login-appmovilubb.rhcloud.com/',
+          url: 'http://146.83.196.204:8070/jdoming/ingreso.php',
           success: function (data, status, xhr) {
               if(data.resp === true){
                   localStorage.setItem('mail',user);
