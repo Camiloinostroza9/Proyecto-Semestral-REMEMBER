@@ -47,8 +47,11 @@ function exito(){
                   localStorage.setItem('Email',email);
                   localStorage.setItem('Contrasena',clave);
                   myApp.hidePreloader();
-                  myApp.alert('Te has registrado correctamente','Remember');
-                  window.location = "main.html";
+                  myApp.alert('Registro exitoso','Remember',function(value){
+                      window.location = "index.html"; 
+                  });
+                  
+                
              }else{
                   myApp.hidePreloader();
                   myApp.alert('Ya existe una cuenta registrada a ese email','Remember');
