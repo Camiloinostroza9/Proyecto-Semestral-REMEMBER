@@ -26,29 +26,35 @@ function enviar(){
           dataType: 'json',
           type: 'POST',
           data: {
-              user: user,
-              pass: pass
+              Email: user,
+              Contrasena: pass
           },
           url: 'http://146.83.196.204:8070/jdoming/ingreso.php',
+          
           success: function (data, status, xhr) {
-              if(data.resp === true){
-                  localStorage.setItem('mail',user);
-                  localStorage.setItem('nombre',data.data.nombre);
+                console.log(data.respuesta);
+              if(data.respuesta == true){
+                  localStorage.setItem('Email',user);
+                  localStorage.setItem('Contrasena',pass);
+                  localStorage.setItem('nombre',data.nombre);
                   myApp.hidePreloader();
                   window.location = "main.html";
-              }else{
+             }else{
                   myApp.hidePreloader();
-                  myApp.alert('Datos Incorrectos','');
-              }
+                  myApp.alert('Datos Incorrectos','Remember');
+            }
           },
-          error: function (xhr, status) {
+         error: function (xhr, status) {
               myApp.hidePreloader();
-              myApp.alert('Datos Incorrectos','');
+             console.log(xhr);
+             console.log(status);
+              myApp.alert('Error! Asegurese de estar registrado en la aplicación','Remember');
+             
           }
       });
     }else{
-      myApp.alert('Debe Ingresar los datos solicitados','');
-    }
+      myApp.alert('Debe Ingresar los datos solicitados','Remember');
+    }    
 }
 
 function registra(){
