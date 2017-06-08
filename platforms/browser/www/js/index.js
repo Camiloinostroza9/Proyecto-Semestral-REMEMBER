@@ -32,7 +32,7 @@ function enviar(){
           url: 'http://146.83.196.204:8070/jdoming/ingreso.php',
           
           success: function (data, status, xhr) {
-                console.log(data.respuesta);
+                
               if(data.respuesta == true){
                   localStorage.setItem('Email',user);
                   localStorage.setItem('Contrasena',pass);
@@ -46,8 +46,6 @@ function enviar(){
           },
          error: function (xhr, status) {
               myApp.hidePreloader();
-             console.log(xhr);
-             console.log(status);
               myApp.alert('Error! Asegurese de estar registrado en la aplicación','Remember');
              
           }

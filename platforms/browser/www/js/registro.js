@@ -40,13 +40,24 @@ function exito(){
               Clave: clave
           },
           url: 'http://146.83.196.204:8070/jdoming/insercion.php',
+           
+           success: function (data, status, xhr) {
+                
+              if(data.respuesta == true){
+                  localStorage.setItem('Email',email);
+                  localStorage.setItem('Contrasena',clave);
+                  myApp.hidePreloader();
+                  myApp.alert('Te has registrado correctamente','Remember');
+                  window.location = "main.html";
+             }else{
+                  myApp.hidePreloader();
+                  myApp.alert('Ya existe una cuenta registrada a ese email','Remember');
+            }
+          },
           
-          error: function (resultado) {
-              if(resultado == 1){
-                  myApp.Alert("Te has registrado exitosamente");
-              }else{
-                  myApp.Alert("Error");
-              }
+          error: function (status, xhr) {
+             myApp.hidePreloader;
+             myApp.alert("Error al crearse una cuenta, contactese con el administrador");
           }
       });
         
