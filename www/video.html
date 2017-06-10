@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -27,48 +28,59 @@
           <div data-page="index" class="page">
             <!-- Scrollable page content -->
             <div class="page-content" style="background-color:white">
-                <div id="title-content" class="content-block-title"><img src="res/imagen3.png" width="100%"></div>
+                 
                 <br>
                 
                   <div class="row">
                     
                     <div class="col-10"></div>
-                    <div class="col-80"><a id="cam" class="button button-fill button-big color-green">SACAR FOTO</a></div>
-                     
+                    <div class="col-80"><a id="grabarVideo" class="button button-fill button-big color-red">GRABAR VIDEO</a></div>
                     <div class="col-10"></div>
                       
-                  </div>
+                  </div> 
+                
                 <br>
                 <br>
+                 <div class="row">
+                    
+                    <div class="col-10"></div>
+                    <div class="col-80"><video id="videolocal" src="" width="1px" height="1px"></video></div>
+                     <video id="videolocal" src="" width="250px" height="300px"></video>
+                    <div class="col-10"></div>
+                      
+                  </div> 
+               
+                <br>
+                <br>
+                
+                <div class="row">
+                    <div class="col-10"></div>
+                    <div class="col-80"><input type="text" id="descripcion" placeholder="Descripción" class="button button-fill button-big color-red" ></div>
+                    <div class="col-10"></div>
+                  </div> 
+                
+                
+                <br>
+                <br>
+                
                 <div class="row">
                     
                     <div class="col-10"></div>
-                    <div class="col-80"><a id="ver" class="button button-fill button-big color-red">VER FOTOS</a></div>
+                    <div class="col-80"><a id="subVideo" class="button button-fill button-big color-red">SUBIR VIDEO</a></div>
                     <div class="col-10"></div>
-                  </div>
+                      
+                  </div> 
+               
                 <br>
                 <br>
-                <div class="row">
-                    
-                    <div class="col-10"></div>
-                    <div class="col-80"><a id="video" class="button button-fill button-big color-lightblue">GRABAR VIDEO</a></div>
-                    <div class="col-10"></div>
-                  </div>
-                <br>
-                <br>
-                <div class="row">
-                    
-                    <div class="col-10"></div>
-                    <div class="col-80"><a id="vervideo" class="button button-fill button-big color-yellow">VER VIDEOS</a></div>
-                    <div class="col-10"></div>
-                  </div>
-               <br> <br> <br> <br> <br>
+                
+               
                 <div class="row">
                     <div class="col-10"></div>
-                    <div class="col-80"><a id="cerrar" class="confirm-ok"><h3>CERRAR SESIÓN</h3></a></div>
+                    <div class="col-80"><a id="volver" class="confirm-ok"><h3>Volver al menú principal</h3></a></div>
                     <div class="col-10"></div>
                   </div>
-     </div>
+           </div>
           </div>
         </div>
       </div>
@@ -77,6 +89,7 @@
     <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="js/framework7.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    
 </body>
 
 </html>
