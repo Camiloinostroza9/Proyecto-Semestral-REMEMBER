@@ -35,8 +35,7 @@ function enviar(){
                 
               if(data.respuesta == true){
                   localStorage.setItem('Email',user);
-                  localStorage.setItem('Contrasena',pass);
-                  localStorage.setItem('nombre',data.nombre);
+                  localStorage.setItem('Contrasena',pass);   
                   myApp.hidePreloader();
                   window.location = "main.html";
              }else{

@@ -20,17 +20,17 @@ document.addEventListener('deviceready', function(){
     $('#video').bind('click', capturarVideo);
     $('#sacarFoto').bind('click', tomarFoto);
     $('#subir').bind('click', subirFoto);
-    $('#ver').bind('click', ver);
     $('#grabarVideo').bind('click',video);
      $('#subVideo').bind('click',subirVideo);
     $('#cerrar').bind('click',cerrar);
     $('#volver').bind('click',volveratras);
-    $('#vervideo').bind('click',vervideo);
+   
 }, false);
 
 
 function capturarFoto(){
     window.location = "foto.html";
+    
 }
 
 function capturarVideo(){
@@ -40,7 +40,7 @@ function capturarVideo(){
 
 
 function ver(){
-    window.location = "main2.html";
+    window.location = "verfoto.html";
 }
 
 function video(){
@@ -81,7 +81,7 @@ function subirVideo() {
         localStorage.setItem('ruta', imageURI.substr(imageURI.lastIndexOf('/') + 1));
         localStorage.setItem('descripcion',params.descripcion);
     }else{
-        myApp.alert('No hay foto para subir','REMEMBER');
+        myApp.alert('No hay video para subir','REMEMBER');
     }
 }
 
@@ -90,7 +90,7 @@ function win2(r) {
     console.log(r.response);
     myApp.hidePreloader();
     myApp.alert('Imagen Subida exitosamente:'+ r.response,'REMEMBER');
-    guardarFoto();
+    guardarVideo();
     
     
 }
@@ -102,6 +102,23 @@ function fail2(error) {
 
 function error2(){
     console.log("ERROR");
+}
+
+function guardarVideo(){
+     var descripcion = localStorage.getItem('descripcion');
+    var Email = localStorage.getItem('Email');
+    var ruta = "http://colvin.chillan.ubiobio.cl:8070/jdoming/videos/"+localStorage.getItem('ruta');
+      $.ajax({
+          dataType: 'json',
+          type: 'POST',
+          data: {
+              descripcion: descripcion,
+              Email: Email,
+              ruta:ruta
+          },
+          url: 'http://colvin.chillan.ubiobio.cl:8070/jdoming/guardar.php'
+        
+      });
 }
 
 
@@ -175,7 +192,7 @@ function subirFoto() {
 function win(r) {
     console.log(r.response);
     myApp.hidePreloader();
-    myApp.alert('Imagen Subida exitosamente:'+ r.response,'REMEMBER');
+    myApp.alert('Imagen Subida exitosamente: ','REMEMBER');
     guardarFoto();
     
     
@@ -193,7 +210,7 @@ function error(){
 function guardarFoto(){
     var descripcion = localStorage.getItem('descripcion');
     var Email = localStorage.getItem('Email');
-    var ruta = localStorage.getItem('ruta');
+    var ruta = "http://colvin.chillan.ubiobio.cl:8070/jdoming/fotos/"+localStorage.getItem('ruta');
       $.ajax({
           dataType: 'json',
           type: 'POST',
@@ -206,7 +223,6 @@ function guardarFoto(){
         
       });
 }
-
 
 
 
