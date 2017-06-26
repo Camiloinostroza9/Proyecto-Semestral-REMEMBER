@@ -25,12 +25,16 @@ $$('#verfoto').on('click', function () {
           
             success: function (data, status, xhr) {
                 
-                var myPhotoBrowserPopupDark = myApp.photoBrowser({
+                   var myPhotoBrowserPopupDark = myApp.photoBrowser({
                     photos : data,
                     theme: 'dark',
-                    type: 'standalone'
+                    type: 'standalone',
+                    backLinkText: 'Cerrar',
+                    ofText: 'de'
                 });
-              myPhotoBrowserPopupDark.open();
+              myPhotoBrowserPopupDark.open(); 
+                
+                
           },
          error: function (xhr, status) {
               myApp.hidePreloader();

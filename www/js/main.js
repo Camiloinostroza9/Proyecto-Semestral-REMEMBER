@@ -17,11 +17,11 @@ document.addEventListener('deviceready', function(){
     $('#name').html('<b>' + localStorage.getItem('nombre') + '</b>');
     $('#mail').html('<b>' + localStorage.getItem('mail') + '</b>');
     $('#cam').bind('click', capturarFoto);
-    $('#video').bind('click', capturarVideo);
+    $('#video').bind('click', captureVideo);
     $('#sacarFoto').bind('click', tomarFoto);
     $('#subir').bind('click', subirFoto);
     $('#grabarVideo').bind('click',video);
-     $('#subVideo').bind('click',subirVideo);
+    // $('#subVideo').bind('click',subirVideo);
     $('#cerrar').bind('click',cerrar);
     $('#volver').bind('click',volveratras);
    
@@ -58,56 +58,79 @@ function video(){
         myApp.alert('Error al grabar el video','REMEMBER')
     };
     
-    navigator.device.capture.captureVideo(videoGrabado,videoError, { duration:15});
-    //myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {});
+    navigator.device.capture.captureVideo(videoGrabado,videoError, { duration:5});
+    myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {
+        var valores = new Object();
+        valores.desc = value;
+        localStorage.setItem('desc',valores.desc);
+    });
+    
+   
 }
 
-function subirVideo() {
-    if($('#videolocal').attr('src') != ''){
-        var imageURI = $('#videolocal').attr('src');
-        var options = new FileUploadOptions();
-        options.fileKey="video";
-        options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-        
-        var params = new Object();
-        params.descripcion = document.getElementById("descripcion").value;
-        options.params = params;
-        options.chunkedMode = false;
-        
-        myApp.showPreloader('Subiendo...');
-        
-        var ft = new FileTransfer();
-        ft.upload(imageURI, "http://colvin.chillan.ubiobio.cl:8070/jdoming/uploadVideo.php", win2, fail2, options);
-        localStorage.setItem('ruta', imageURI.substr(imageURI.lastIndexOf('/') + 1));
-        localStorage.setItem('descripcion',params.descripcion);
-    }else{
-        myApp.alert('No hay video para subir','REMEMBER');
-    }
+function captureVideo() {
+  
+    navigator.device.capture.captureVideo(captureSuccess, captureError, {duration: 5});
+     myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {
+        var valores = new Object();
+        valores.desc = value;
+        localStorage.setItem('desc',valores.desc);
+    });
+    
 }
 
+
+function captureSuccess(mediaFiles) {
+    var i, len;
+    len = mediaFiles.length;
+    
+    for (i = 0, len; i < len; i += 1) {
+        
+        uploadFile(mediaFiles[i]);
+    }       
+}
+
+
+function captureError(error) {
+    myApp.alert('Error al grabar el video','REMEMBER');
+}
+
+
+//Upload files to server
+function uploadFile(mediaFile) {
+    //var videoURI = $('#video').attr('src');
+    var ft = new FileTransfer(),
+        path = mediaFile.fullPath,
+        name = mediaFile.name;
+    var options = new FileUploadOptions();
+    options.chunkedMode = false;
+            options.fileKey = "video";
+            options.fileName = videoURI.substr(imageURI.lastIndexOf('/')+1);
+            options.mimeType = "video/mpeg";
+    
+    myApp.showPreloader('Subiendo...');
+    ft.upload(path, "http://colvin.chillan.ubiobio.cl:8070/jdoming/uploadVideo.php", win2,fail2, options);
+   // localStorage.setItem('direccion', videoURI.substr(videoURI.lastIndexOf('/') + 1));
+}
 
 function win2(r) {
-    console.log(r.response);
+     
     myApp.hidePreloader();
-    myApp.alert('Imagen Subida exitosamente:'+ r.response,'REMEMBER');
+    myApp.alert('Video subido exitosamente','REMEMBER');
     guardarVideo();
-    
-    
 }
 
 function fail2(error) {
-    myApp.hidePreloader();
-    myApp.alert('Error al subir la imagen','REMEMBER');
+    myApp.alert('Error al subir el video','REMEMBER');
 }
 
-function error2(){
-    console.log("ERROR");
-}
+
+
 
 function guardarVideo(){
-     var descripcion = localStorage.getItem('descripcion');
+    var descripcion = localStorage.getItem('desc');
     var Email = localStorage.getItem('Email');
-    var ruta = "http://colvin.chillan.ubiobio.cl:8070/jdoming/videos/"+localStorage.getItem('ruta');
+    var ruta = "http://colvin.chillan.ubiobio.cl:8070/jdoming/videos/"+localStorage.getItem('direccion');
       $.ajax({
           dataType: 'json',
           type: 'POST',
@@ -116,7 +139,7 @@ function guardarVideo(){
               Email: Email,
               ruta:ruta
           },
-          url: 'http://colvin.chillan.ubiobio.cl:8070/jdoming/guardar.php'
+          url: 'http://colvin.chillan.ubiobio.cl:8070/jdoming/guardarVideo.php'
         
       });
 }
@@ -150,7 +173,6 @@ function vervideo(){
 
 
 function tomarFoto() {
-    // Retrieve image file location from specified source
     navigator.camera.getPicture(function(imageURI){
             $('#fotolocal').attr('src',imageURI);
         }, function(message) {
