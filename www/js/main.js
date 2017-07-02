@@ -21,7 +21,7 @@ document.addEventListener('deviceready', function(){
     $('#sacarFoto').bind('click', tomarFoto);
     $('#subir').bind('click', subirFoto);
     $('#grabarVideo').bind('click',video);
-    // $('#subVideo').bind('click',subirVideo);
+    $('#volverfoto').bind('click',volveratras);
     $('#cerrar').bind('click',cerrar);
     $('#volver').bind('click',volveratras);
    
@@ -38,44 +38,42 @@ function capturarVideo(){
 }
 
 
-
-function ver(){
-    window.location = "verfoto.html";
-}
-
-function video(){
-    
-    var videoGrabado = function(mediaFiles){
-        var i,path,len;
-        for(i=0,len = mediaFiles.length;i<len;i += 1){
-            path = mediaFiles[i].fullPath;   
-        }
-        
-    } ;
-    
-    
-    var videoError = function(error){
-        myApp.alert('Error al grabar el video','REMEMBER')
-    };
-    
-    navigator.device.capture.captureVideo(videoGrabado,videoError, { duration:5});
-    myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {
-        var valores = new Object();
-        valores.desc = value;
-        localStorage.setItem('desc',valores.desc);
+function cerrar(){
+    $('.confirm-ok').on('click', function () {
+    myApp.confirm('Está seguro que desea cerrar sesión','REMEMBER', function () {
+       window.location = "index.html";
     });
+         
+});
     
-   
 }
 
+function volveratras(){
+      $('.confirm-ok').on('click', function () {
+    myApp.confirm('Está seguro regresar al menú principal','REMEMBER', function () {
+       window.location = "main.html";
+    });
+         
+});
+}
+
+function volveratrasfoto(){
+      $('.confirm-ok').on('click', function () {
+    myApp.confirm('Está seguro regresar al menú principal','REMEMBER', function () {
+       window.location = "main.html";
+    });
+         
+});
+}
+
+
+
+
+//funcion para capturar el video
 function captureVideo() {
   
     navigator.device.capture.captureVideo(captureSuccess, captureError, {duration: 5});
-     myApp.prompt('Agregue una Descripción al video','REMEMBER', function (value) {
-        var valores = new Object();
-        valores.desc = value;
-        localStorage.setItem('desc',valores.desc);
-    });
+    
     
 }
 
@@ -96,21 +94,22 @@ function captureError(error) {
 }
 
 
-//Upload files to server
+//subir videos al servidor
 function uploadFile(mediaFile) {
-    //var videoURI = $('#video').attr('src');
+    
     var ft = new FileTransfer(),
         path = mediaFile.fullPath,
         name = mediaFile.name;
     var options = new FileUploadOptions();
-    options.chunkedMode = false;
+    options.chunkedMode = true;
             options.fileKey = "video";
-            options.fileName = videoURI.substr(imageURI.lastIndexOf('/')+1);
+            options.fileName = path.substr(path.lastIndexOf('/')+1);
             options.mimeType = "video/mpeg";
     
     myApp.showPreloader('Subiendo...');
     ft.upload(path, "http://colvin.chillan.ubiobio.cl:8070/jdoming/uploadVideo.php", win2,fail2, options);
-   // localStorage.setItem('direccion', videoURI.substr(videoURI.lastIndexOf('/') + 1));
+  
+    localStorage.setItem('direccion', path.substr(path.lastIndexOf('/') + 1));
 }
 
 function win2(r) {
@@ -126,16 +125,15 @@ function fail2(error) {
 
 
 
-
+//función que guarda las direccion del video en las base de datos
 function guardarVideo(){
-    var descripcion = localStorage.getItem('desc');
     var Email = localStorage.getItem('Email');
     var ruta = "http://colvin.chillan.ubiobio.cl:8070/jdoming/videos/"+localStorage.getItem('direccion');
       $.ajax({
           dataType: 'json',
           type: 'POST',
           data: {
-              descripcion: descripcion,
+              //descripcion: descripcion,
               Email: Email,
               ruta:ruta
           },
@@ -146,32 +144,11 @@ function guardarVideo(){
 
 
 
-function cerrar(){
-    $('.confirm-ok').on('click', function () {
-    myApp.confirm('Está seguro de cerrar sesión','REMEMBER', function () {
-       window.location = "index.html";
-    });
-         
-});
-    
-}
-
-function volveratras(){
-      $('.confirm-ok').on('click', function () {
-    myApp.confirm('Está seguro regresar al menú principal','REMEMBER', function () {
-       window.location = "main.html";
-    });
-         
-});
-}
-
-function vervideo(){
-    window.location = "mainvideo.html";
-}
 
 
 
 
+//Función para tomar la foto
 function tomarFoto() {
     navigator.camera.getPicture(function(imageURI){
             $('#fotolocal').attr('src',imageURI);
@@ -187,7 +164,7 @@ function tomarFoto() {
 }
 
 
-
+//Función que sube la foto al servidor
 function subirFoto() {
     if($('#fotolocal').attr('src') != ''){
         var imageURI = $('#fotolocal').attr('src');
@@ -214,7 +191,7 @@ function subirFoto() {
 function win(r) {
     console.log(r.response);
     myApp.hidePreloader();
-    myApp.alert('Imagen Subida exitosamente: ','REMEMBER');
+    myApp.alert('Imagen Subida exitosamente','REMEMBER');
     guardarFoto();
     
     
@@ -229,6 +206,8 @@ function error(){
     console.log("ERROR");
 }
 
+
+//función para subir la información de la foto a la bdd
 function guardarFoto(){
     var descripcion = localStorage.getItem('descripcion');
     var Email = localStorage.getItem('Email');
